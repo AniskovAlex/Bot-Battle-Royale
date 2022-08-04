@@ -8,15 +8,25 @@ using UnityEngine;
 /// </summary>
 public class BotData
 {
-    public float speed { get; set; }
+    public float speed { get; private set; }
     public float speedMultiplier = 1f;
 
 
-    public float damage { get; set; }
-    public float damageMultiplier = 0.2f;
+    public float damage { get; private set; }
+    public float damageMultiplier = 0.5f;
 
-    public float health { get; set; }
-    public float healthMultiplier = 1f;
+    float currentHealth = 1;
+
+    public float health
+    {
+        get => currentHealth;
+        set
+        {
+            if (currentHealth > 0)
+                currentHealth = value;
+        }
+    }
+    public float healthMultiplier = 2f;
 
     public float points = 30;
 
@@ -27,11 +37,11 @@ public class BotData
     public BotData()
     {
         speed = 50;
-        damage = 5;
+        damage = 10;
         health = 50;
 
         float boost = Random.Range(0, points);
-        speed += boost *speedMultiplier;
+        speed += boost * speedMultiplier;
         points -= boost;
 
         boost = Random.Range(0, points);
