@@ -10,9 +10,13 @@ public class Bot : MonoBehaviour, IDamageable
 {
     BotData data;
     BotSeeker seeker;
+
+    int score = 0;
+
+    public BotDataShower dataShower;
     public BotFollower follower;
 
-    NavMeshAgent agent;
+    public NavMeshAgent agent;
     IDamageable target = null;
     public GameObject myself { get; set; }
 
@@ -24,15 +28,14 @@ public class Bot : MonoBehaviour, IDamageable
     void Start()
     {
         GameObject objectsHolder = GetComponentInParent<ObjectsHolder>().gameObject;
-        agent = GetComponent<NavMeshAgent>();
 
         data = new BotData();
         seeker = new BotSeeker(objectsHolder);
 
         target = seeker.SeekNewTarget(this);
         agent.stoppingDistance = 1.7f;
-        follower.agent = agent;
         follower.FollowNewTarget(target.myself);
+        dataShower.ChangeHealth(data.health);
     }
 
     void Update()
@@ -49,7 +52,11 @@ public class Bot : MonoBehaviour, IDamageable
         }
         if (agent.hasPath && agent.remainingDistance < 1.8f)
         {
-            target.TakeDamage(data.damage * Time.deltaTime);
+            if (target.TakeDamage(data.damage * Time.deltaTime))
+            {
+                score++;
+                dataShower.ChangeScore(score);
+            }
             if (target.GetHealth() <= 0)
             {
                 target = seeker.SeekNewTarget(this);
@@ -61,11 +68,16 @@ public class Bot : MonoBehaviour, IDamageable
     /// Вычитает из жизней бота урон
     /// </summary>
     /// <param name="damage">Урон</param>
-    public void TakeDamage(float damage)
+    public bool TakeDamage(float damage)
     {
         data.health -= damage;
         if (data.health <= 0)
+        {
             Destroy(myself);
+            return true;
+        }
+        dataShower.ChangeHealth(data.health);
+        return false;
     }
 
 

@@ -8,6 +8,6 @@ using UnityEngine;
 public interface IDamageable
 {
     GameObject myself { get; set; }
-    void TakeDamage(float damage);
+    bool TakeDamage(float damage);
     float GetHealth();
 }

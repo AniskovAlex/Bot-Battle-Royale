@@ -21,13 +21,15 @@ public class Box : MonoBehaviour, IDamageable
         health = 100f;
     }
 
-    public void TakeDamage(float damage)
+    public bool TakeDamage(float damage)
     {
         health -= damage;
         if (health <= 0)
         {
             Destroy(myself);
-        }         
+            return true;
+        }
+        return false;
     }
 
     public float GetHealth()
