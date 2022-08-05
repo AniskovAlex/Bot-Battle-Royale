@@ -9,6 +9,8 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     public GameObject areasHolder;
+    public GameObject botHolder;
+    public GameObject botBody;
     public int botsCount;
 
     SpawnArea[] areasArr;
@@ -25,7 +27,12 @@ public class SpawnManager : MonoBehaviour
         for (int i = 0; i < botsCount; i++)
         {
             area = Random.Range(0, areasArr.Length);
-            areasArr[area].SpawnBot();
+            areasArr[area].SpawnBot(botBody, botHolder);
         }
+    }
+
+    public void SpawnAtPoint(Vector3 point)
+    {
+        Spawner.SpawnBot(point, botBody, botHolder);
     }
 }
