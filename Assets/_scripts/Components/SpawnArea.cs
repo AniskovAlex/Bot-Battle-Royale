@@ -7,14 +7,11 @@ using UnityEngine;
 /// </summary>
 public class SpawnArea : MonoBehaviour
 {
-    public GameObject botBody;
-    GameObject botsList;
     Vector3 extents;
 
     private void Awake()
     {
         extents = gameObject.GetComponent<Renderer>().bounds.extents;
-        botsList = gameObject.GetComponentInParent<AreasHolder>().botsHolder;
     }
 
     private void Start()
@@ -24,7 +21,7 @@ public class SpawnArea : MonoBehaviour
     /// <summary>
     /// Создание бота
     /// </summary>
-    public void SpawnBot()
+    public GameObject SpawnBot(GameObject botBody, GameObject botHolder)
     {
         Vector3 spawnPoint = new Vector3
         {
@@ -33,7 +30,6 @@ public class SpawnArea : MonoBehaviour
             z = Random.Range(-extents.z, extents.z),
         };
         Vector3 worldPosition = gameObject.transform.position + spawnPoint;
-        GameObject newBot = Instantiate(botBody, worldPosition, Quaternion.identity);
-        newBot.gameObject.transform.SetParent(botsList.transform);
+        return Spawner.SpawnBot(worldPosition, botBody, botHolder);
     }
 }

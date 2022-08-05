@@ -20,6 +20,10 @@ public class Bot : MonoBehaviour, IDamageable
     IDamageable target = null;
     public GameObject myself { get; set; }
 
+    public delegate void BotHandler(GameObject myself);
+    public event BotHandler botDealth;
+    public event BotHandler botGetScore;
+
     private void Awake()
     {
         myself = gameObject;
@@ -34,13 +38,16 @@ public class Bot : MonoBehaviour, IDamageable
 
         target = seeker.SeekNewTarget(this);
         agent.stoppingDistance = 1.7f;
+        agent.speed = data.speed;
         follower.FollowNewTarget(target.myself);
         dataShower.ChangeHealth(data.health);
+        dataShower.ChangeDamage(data.damage);
     }
 
     void Update()
     {
         if (data.health <= 0) return;
+
         if (target == null || target.GetHealth() <= 0)
         {
             target = seeker.SeekNewTarget(this);
@@ -50,17 +57,26 @@ public class Bot : MonoBehaviour, IDamageable
                 follower.FollowNewTarget(null);
             return;
         }
+
         if (agent.hasPath && agent.remainingDistance < 1.8f)
         {
             if (target.TakeDamage(data.damage * Time.deltaTime))
             {
                 score++;
                 dataShower.ChangeScore(score);
+                botGetScore(myself);
+                
+                if (target.myself.GetComponent<Bot>() != null)
+                {
+                    data.IncreaseDamage(5f);
+                    dataShower.ChangeDamage(data.damage);
+                }
             }
             if (target.GetHealth() <= 0)
             {
                 target = seeker.SeekNewTarget(this);
-                follower.FollowNewTarget(target.myself);
+                if (target != null)
+                    follower.FollowNewTarget(target.myself);
             }
         }
     }
@@ -73,7 +89,7 @@ public class Bot : MonoBehaviour, IDamageable
         data.health -= damage;
         if (data.health <= 0)
         {
-            Destroy(myself);
+            botDealth(myself);
             return true;
         }
         dataShower.ChangeHealth(data.health);
@@ -88,6 +104,22 @@ public class Bot : MonoBehaviour, IDamageable
     public float GetHealth()
     {
         return data.health;
+    }
+
+
+    public int GetScore()
+    {
+        return score;
+    }
+    public void ResetData()
+    {
+        score = 0;
+        data = new BotData();
+        agent.speed = data.speed;
+
+        dataShower.ChangeHealth(data.health);
+        dataShower.ChangeScore(score);
+        dataShower.ChangeDamage(data.damage);
     }
 
 }
