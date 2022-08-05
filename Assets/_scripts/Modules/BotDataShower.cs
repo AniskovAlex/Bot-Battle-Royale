@@ -7,6 +7,7 @@ public class BotDataShower : MonoBehaviour
 {
     public Text scoreField;
     public Text healthField;
+    public Text damageField;
 
     public void ChangeScore(int score)
     {
@@ -16,5 +17,10 @@ public class BotDataShower : MonoBehaviour
     public void ChangeHealth(float health)
     {
         healthField.text = "ÕÏ: " + Mathf.CeilToInt(health);
+    }
+
+    public void ChangeDamage(float damage)
+    {
+        damageField.text = "Óðîí: " + Mathf.CeilToInt(damage);
     }
 }

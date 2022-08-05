@@ -51,4 +51,9 @@ public class BotData
         health += points * healthMultiplier;
     }
 
+
+    public void IncreaseDamage(float damageAdd)
+    {
+        damage = Mathf.Clamp(damage + damageAdd, 0, 100);
+    }
 }

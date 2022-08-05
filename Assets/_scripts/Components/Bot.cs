@@ -40,6 +40,7 @@ public class Bot : MonoBehaviour, IDamageable
         agent.speed = data.speed;
         follower.FollowNewTarget(target.myself);
         dataShower.ChangeHealth(data.health);
+        dataShower.ChangeDamage(data.damage);
     }
 
     void Update()
@@ -60,6 +61,12 @@ public class Bot : MonoBehaviour, IDamageable
             {
                 score++;
                 dataShower.ChangeScore(score);
+                
+                if (target.myself.GetComponent<Bot>() != null)
+                {
+                    data.IncreaseDamage(5f);
+                    dataShower.ChangeDamage(data.damage);
+                }
             }
             if (target.GetHealth() <= 0)
             {
@@ -103,6 +110,7 @@ public class Bot : MonoBehaviour, IDamageable
 
         dataShower.ChangeHealth(data.health);
         dataShower.ChangeScore(score);
+        dataShower.ChangeDamage(data.damage);
     }
 
 }
