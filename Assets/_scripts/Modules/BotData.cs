@@ -9,7 +9,7 @@ using UnityEngine;
 public class BotData
 {
     public float speed { get; private set; }
-    public float speedMultiplier = 1f;
+    public float speedMultiplier = 0.1f;
 
 
     public float damage { get; private set; }
@@ -36,7 +36,7 @@ public class BotData
     /// </summary>
     public BotData()
     {
-        speed = 50;
+        speed = 2;
         damage = 10;
         health = 50;
 

@@ -21,7 +21,7 @@ public class SpawnArea : MonoBehaviour
     /// <summary>
     /// Создание бота
     /// </summary>
-    public void SpawnBot(GameObject botBody, GameObject botHolder)
+    public GameObject SpawnBot(GameObject botBody, GameObject botHolder)
     {
         Vector3 spawnPoint = new Vector3
         {
@@ -30,6 +30,6 @@ public class SpawnArea : MonoBehaviour
             z = Random.Range(-extents.z, extents.z),
         };
         Vector3 worldPosition = gameObject.transform.position + spawnPoint;
-        Spawner.SpawnBot(worldPosition, botBody, botHolder);
+        return Spawner.SpawnBot(worldPosition, botBody, botHolder);
     }
 }
