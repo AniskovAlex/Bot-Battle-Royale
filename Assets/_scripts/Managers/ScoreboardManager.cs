@@ -2,17 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Менеджер таблицы лидеров
+/// </summary>
 public class ScoreboardManager : MonoBehaviour
 {
     [SerializeField] GameObject element;
     [SerializeField] GameObject content;
     [SerializeField] GameObject panel;
 
+    /// <summary>
+    /// Скрывает и показывает таблицу лидеров
+    /// </summary>
     public void ShowPanel()
     {
         panel.active = !panel.active;
     }
 
+    /// <summary>
+    /// Добавить нового бота в таблицу лидеров
+    /// </summary>
+    /// <param name="bot">Сущность бота добавляемого в таблицу</param>
     public void AddNewBotToBoard(Bot bot)
     {
         ScoreboardElement[] elements = content.GetComponentsInChildren<ScoreboardElement>();
@@ -25,6 +35,10 @@ public class ScoreboardManager : MonoBehaviour
         bot.botGetScore += ChangePlace;
     }
 
+    /// <summary>
+    /// Посчитать и изменить место бота в таблицк
+    /// </summary>
+    /// <param name="bot"></param>
     public void ChangePlace(GameObject bot)
     {
         ScoreboardElement[] elements = content.GetComponentsInChildren<ScoreboardElement>();

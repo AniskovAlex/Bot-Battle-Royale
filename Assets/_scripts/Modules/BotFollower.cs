@@ -9,7 +9,8 @@ using UnityEngine.AI;
 /// </summary>
 public class BotFollower : MonoBehaviour
 {
-    public NavMeshAgent agent;
+    [SerializeField] NavMeshAgent agent;
+    
     GameObject target = null;
 
     /// <summary>
@@ -21,7 +22,6 @@ public class BotFollower : MonoBehaviour
         this.target = target;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (target == null) return;

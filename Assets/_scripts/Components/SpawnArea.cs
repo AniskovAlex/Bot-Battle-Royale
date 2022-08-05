@@ -14,10 +14,6 @@ public class SpawnArea : MonoBehaviour
         extents = gameObject.GetComponent<Renderer>().bounds.extents;
     }
 
-    private void Start()
-    {
-
-    }
     /// <summary>
     /// Создание бота
     /// </summary>

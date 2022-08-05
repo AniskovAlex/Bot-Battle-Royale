@@ -8,23 +8,22 @@ using UnityEngine.AI;
 /// </summary>
 public class Bot : MonoBehaviour, IDamageable
 {
-    BotData data;
-    BotSeeker seeker;
-
-    int score = 0;
-
-    public BotDataShower dataShower;
-    public BotFollower follower;
-
-    public NavMeshAgent agent;
-    IDamageable target = null;
+    [SerializeField] BotDataShower dataShower;
+    [SerializeField] BotFollower follower;
+    [SerializeField] NavMeshAgent agent;
+  
     public GameObject myself { get; set; }
-
     public delegate void BotHandler(GameObject myself);
     public event BotHandler botDealth;
     public event BotHandler botGetScore;
 
-    private void Awake()
+    int score = 0;
+    BotData data;
+    BotSeeker seeker;
+    IDamageable target = null;
+    
+
+    void Awake()
     {
         myself = gameObject;
     }
@@ -34,12 +33,16 @@ public class Bot : MonoBehaviour, IDamageable
         GameObject objectsHolder = GetComponentInParent<ObjectsHolder>().gameObject;
 
         data = new BotData();
+        
         seeker = new BotSeeker(objectsHolder);
 
         target = seeker.SeekNewTarget(this);
+        
         agent.stoppingDistance = 1.7f;
         agent.speed = data.speed;
+        
         follower.FollowNewTarget(target.myself);
+        
         dataShower.ChangeHealth(data.health);
         dataShower.ChangeDamage(data.damage);
     }
@@ -72,6 +75,7 @@ public class Bot : MonoBehaviour, IDamageable
                     dataShower.ChangeDamage(data.damage);
                 }
             }
+
             if (target.GetHealth() <= 0)
             {
                 target = seeker.SeekNewTarget(this);
@@ -106,20 +110,40 @@ public class Bot : MonoBehaviour, IDamageable
         return data.health;
     }
 
-
+    /// <summary>
+    /// Возвращает текущий счёт бота
+    /// </summary>
+    /// <returns></returns>
     public int GetScore()
     {
         return score;
     }
+
+    /// <summary>
+    /// Переопределяет параметры бота
+    /// </summary>
     public void ResetData()
     {
-        score = 0;
         data = new BotData();
         agent.speed = data.speed;
+        score = 0;
 
         dataShower.ChangeHealth(data.health);
         dataShower.ChangeScore(score);
         dataShower.ChangeDamage(data.damage);
     }
 
+    public void Deactivate()
+    {
+        follower.enabled = false;
+        agent.enabled = false;
+        enabled = false;
+    }
+
+    public void Activate()
+    {
+        enabled = true;
+        follower.enabled = true;
+        agent.enabled = true;
+    }
 }

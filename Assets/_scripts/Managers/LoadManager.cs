@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Менеджер загрузки уровней
+/// </summary>
 public class LoadManager : MonoBehaviour
 {
     string layerScene = "load";
@@ -19,8 +22,6 @@ public class LoadManager : MonoBehaviour
             StartCoroutine(AsyncLoadScene(newScene));
         }
     }
-
-
 
     IEnumerator AsyncLoadScene(string newScene)
     {

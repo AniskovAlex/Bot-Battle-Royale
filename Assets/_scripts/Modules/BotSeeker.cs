@@ -15,6 +15,11 @@ public class BotSeeker
         this.objectsHolder = objectsHolder;
     }
 
+    /// <summary>
+    /// Возвращает найденую цель в контейнере
+    /// </summary>
+    /// <param name="excluded">Объект для исключения из поиска</param>
+    /// <returns></returns>
     public IDamageable SeekNewTarget(IDamageable excluded)
     {
         IDamageable[] objects = objectsHolder.GetComponentsInChildren<IDamageable>();

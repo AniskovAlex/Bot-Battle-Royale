@@ -8,5 +8,5 @@ using UnityEngine;
 /// </summary>
 public class AreasHolder : MonoBehaviour
 {
-    public GameObject botsHolder;
+    [SerializeField] GameObject botsHolder;
 }

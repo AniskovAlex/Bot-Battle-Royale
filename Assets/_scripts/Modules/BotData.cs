@@ -8,15 +8,13 @@ using UnityEngine;
 /// </summary>
 public class BotData
 {
+    [SerializeField] float speedMultiplier = 0.1f;
+    [SerializeField] float damageMultiplier = 0.5f;
+    [SerializeField] float healthMultiplier = 2f;
+    [SerializeField] float points = 30;
+
     public float speed { get; private set; }
-    public float speedMultiplier = 0.1f;
-
-
     public float damage { get; private set; }
-    public float damageMultiplier = 0.5f;
-
-    float currentHealth = 1;
-
     public float health
     {
         get => currentHealth;
@@ -26,10 +24,8 @@ public class BotData
                 currentHealth = value;
         }
     }
-    public float healthMultiplier = 2f;
 
-    public float points = 30;
-
+    float currentHealth = 1;
 
     /// <summary>
     ///  онструктор, который случайным образом распредел€ет характеристики бота
@@ -51,7 +47,10 @@ public class BotData
         health += points * healthMultiplier;
     }
 
-
+    /// <summary>
+    /// ”величевает урон бота
+    /// </summary>
+    /// <param name="damageAdd">ƒобавочный урон</param>
     public void IncreaseDamage(float damageAdd)
     {
         damage = Mathf.Clamp(damage + damageAdd, 0, 100);

@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class Box : MonoBehaviour, IDamageable
 {
-    public float health;
+    [SerializeField] float health;
     public GameObject myself { get; set; }
 
     private void Awake()
@@ -16,11 +16,11 @@ public class Box : MonoBehaviour, IDamageable
         myself = gameObject;
     }
 
-    private void Start()
-    {
-        health = 100f;
-    }
-
+    /// <summary>
+    /// Коробка получает урон
+    /// </summary>
+    /// <param name="damage">Урон</param>
+    /// <returns></returns>
     public bool TakeDamage(float damage)
     {
         health -= damage;
@@ -32,6 +32,11 @@ public class Box : MonoBehaviour, IDamageable
         return false;
     }
 
+
+    /// <summary>
+    /// Возвращает здоровье коробки
+    /// </summary>
+    /// <returns></returns>
     public float GetHealth()
     {
         return health;

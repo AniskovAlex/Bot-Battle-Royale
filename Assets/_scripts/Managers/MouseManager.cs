@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Менеджер поведения мыши
+/// </summary>
 public class MouseManager : MonoBehaviour
 {
-    public Camera cameraMain;
-    public GameObject plane;
-    public SpawnManager spawnManager;
+    [SerializeField] Camera cameraMain;
+    [SerializeField] GameObject plane;
+    [SerializeField] SpawnManager spawnManager;
 
     private void Update()
     {
