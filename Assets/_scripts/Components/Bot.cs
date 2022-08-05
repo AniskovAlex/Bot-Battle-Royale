@@ -22,6 +22,7 @@ public class Bot : MonoBehaviour, IDamageable
 
     public delegate void BotHandler(GameObject myself);
     public event BotHandler botDealth;
+    public event BotHandler botGetScore;
 
     private void Awake()
     {
@@ -46,6 +47,7 @@ public class Bot : MonoBehaviour, IDamageable
     void Update()
     {
         if (data.health <= 0) return;
+
         if (target == null || target.GetHealth() <= 0)
         {
             target = seeker.SeekNewTarget(this);
@@ -55,12 +57,14 @@ public class Bot : MonoBehaviour, IDamageable
                 follower.FollowNewTarget(null);
             return;
         }
+
         if (agent.hasPath && agent.remainingDistance < 1.8f)
         {
             if (target.TakeDamage(data.damage * Time.deltaTime))
             {
                 score++;
                 dataShower.ChangeScore(score);
+                botGetScore(myself);
                 
                 if (target.myself.GetComponent<Bot>() != null)
                 {
@@ -102,6 +106,11 @@ public class Bot : MonoBehaviour, IDamageable
         return data.health;
     }
 
+
+    public int GetScore()
+    {
+        return score;
+    }
     public void ResetData()
     {
         score = 0;

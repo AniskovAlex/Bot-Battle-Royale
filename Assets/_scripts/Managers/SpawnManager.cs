@@ -12,6 +12,7 @@ public class SpawnManager : MonoBehaviour
     public GameObject botHolder;
     public GameObject botBody;
     public PoolManager pool;
+    [SerializeField] ScoreboardManager scoreboard;
     public int botsCount;
 
     SpawnArea[] areasArr;
@@ -28,8 +29,9 @@ public class SpawnManager : MonoBehaviour
         for (int i = 0; i < botsCount; i++)
         {
             area = Random.Range(0, areasArr.Length);
-            SetBotsPool(areasArr[area].SpawnBot(botBody, botHolder));
-
+            GameObject newBot = areasArr[area].SpawnBot(botBody, botHolder);
+            SetBotsPool(newBot);
+            scoreboard.AddNewBotToBoard(newBot.GetComponent<Bot>());
         }
     }
 
@@ -37,9 +39,16 @@ public class SpawnManager : MonoBehaviour
     {
         GameObject botFromPool = pool.GetBotFromPool();
         if (botFromPool != null)
+        {
             Spawner.SpawnExistBot(point, botFromPool, botHolder);
+            scoreboard.ChangePlace(botFromPool);
+        }
         else
-            SetBotsPool(Spawner.SpawnBot(point, botBody, botHolder));
+        {
+            GameObject newBot = Spawner.SpawnBot(point, botBody, botHolder);
+            SetBotsPool(newBot);
+            scoreboard.AddNewBotToBoard(newBot.GetComponent<Bot>());
+        }
     }
 
     void SetBotsPool(GameObject bot)
